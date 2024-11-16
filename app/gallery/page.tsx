@@ -246,7 +246,7 @@ export default function Gallery() {
         className="rounded-lg overflow-hidden relative"
       >
         <div className="absolute top-4 left-4 bg-white p-4 rounded-lg shadow-lg z-10">
-          <h1 className="text-lg font-bold">Welcome to LooFinder!</h1>
+          <h1 className="text-lg font-bold">Welcome to Hydrofy!</h1>
           <Button onClick={() => setShowSubmit(!showSubmit)}>
             {!showSubmit ? "➕ Add a Facility" : "❌ Close Panel"}
           </Button>
@@ -291,7 +291,7 @@ export default function Gallery() {
                 <div className="flex justify-center mt-2 mb-2">
                   <Image
                     src={details.image}
-                    alt="LooFinder Logo"
+                    alt="Hydrofy Logo"
                     width={256}
                     height={256}
                     className="rounded-md"

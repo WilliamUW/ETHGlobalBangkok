@@ -1,4 +1,4 @@
-# LooFinder
+# Hydrofy
 
 ```
 yarn install && yarn run dev
