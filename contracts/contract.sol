@@ -8,7 +8,8 @@ contract RecordTracker {
         int256 longitude;
         string recordType;
         uint256 timestamp;
-        bool isDeleted;
+        bool isDeleted; 
+        uint8 ratings;
     }
 
     mapping(address => Record[]) private userRecords;
@@ -18,9 +19,9 @@ contract RecordTracker {
     event RecordDeleted(address indexed user, uint256 indexed recordIndex);
     event RecordRestored(address indexed user, uint256 indexed recordIndex);
 
-    function addRecord(string memory _ipfsCid, int256 _latitude, int256 _longitude, string memory _recordType) public {
-        Record memory newRecord = Record(_ipfsCid, _latitude, _longitude, _recordType, block.timestamp, false);
-        userRecords[msg.sender].push(newRecord);
+    function addRecord(string memory _ipfsCid, int256 _latitude, int256 _longitude, string memory _recordType, uint8 _ratings) public {
+        require(_ratings >= 1 && _ratings <= 5, "ratings must be between 1 and 5");
+        Record memory newRecord = Record(_ipfsCid, _latitude, _longitude, _recordType, block.timestamp, false, _ratings);
         allRecords.push(newRecord);
         emit RecordAdded(msg.sender, _ipfsCid, _latitude, _longitude, _recordType, block.timestamp);
     }
