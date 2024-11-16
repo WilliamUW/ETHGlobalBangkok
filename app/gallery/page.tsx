@@ -2,7 +2,6 @@
 import { IPFSRecord, Record, useAppContext } from "../AppContextProvider";
 import {
   getClientContractAddress,
-  POLYGON,
 } from "../config";
 import { wagmiAbi } from "../abi";
 import { useEffect, useRef, useState } from "react";
@@ -209,7 +208,7 @@ export default function Gallery() {
   const fetchRecords = async () => {
     const networkId = await primaryWallet?.getNetwork();
 
-    const clientAndAddress = getClientContractAddress(networkId as number ?? POLYGON);
+    const clientAndAddress = getClientContractAddress(networkId as number);
     const { client, contractAddress } = clientAndAddress;
 
     // Fetch records from the correct chain

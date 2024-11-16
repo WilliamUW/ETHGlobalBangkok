@@ -20,7 +20,6 @@ import { wagmiAbi } from "./abi";
 import {
   account,
   getClientContractAddress,
-  POLYGON,
 } from "./config";
 import { storeStringAndGetBlobId } from "./utility/walrus";
 import { motion } from "framer-motion";
@@ -151,7 +150,7 @@ export default function HandleSubmit() {
       console.log(ipfsCid);
       const networkId = await primaryWallet?.getNetwork();
       const { client, walletClient, contractAddress } =
-        getClientContractAddress((networkId as number) ?? POLYGON);
+        getClientContractAddress((networkId as number));
       console.log(account, client, walletClient, contractAddress)
       try {
         if (account && walletClient) {
