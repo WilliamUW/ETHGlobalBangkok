@@ -19,8 +19,12 @@ export const polygonContractAddress =
 export const flowContractAddress = "0x94c19Bf5be886B5dF611A18eA714dE2001927e44";
 export const scrollContractAddress =
   "0x632e69488e25f1bec16a11cf1aa7b2261f2b94ef";
-export const mantleContractAddress = "0x632e69488e25f1bec16a11cf1aa7b2261f2b94ef";
-export const zircuitContractAddress = "0x632e69488e25f1bec16a11cf1aa7b2261f2b94ef";
+export const mantleContractAddress =
+  "0x632e69488e25f1bec16a11cf1aa7b2261f2b94ef";
+export const zircuitContractAddress =
+  "0x632e69488e25f1bec16a11cf1aa7b2261f2b94ef";
+export const morphContractAddress =
+  "0xf0796fa044982b81514b9172834fe64e681723cc";
 
 export const polygonPublicClient = createPublicClient({
   chain: polygonAmoy,
@@ -134,6 +138,11 @@ export const getClientContractAddress = (networkId: number) => {
       client = zircuitPublicClient;
       walletClient = zircuitWalletClient;
       contractAddress = zircuitContractAddress;
+      break;
+    case morphHolesky.id:
+      client = morphPublicClient;
+      walletClient = morphWalletClient;
+      contractAddress = morphContractAddress;
       break;
     default:
       console.error("Unsupported network ID:", networkId);
