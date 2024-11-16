@@ -183,10 +183,10 @@ export default function Gallery() {
         style={{ width: "100%", height: "92.5vh" }}
         className="rounded-lg overflow-hidden relative"
       >
-        <div className="absolute top-4 left-4 bg-white p-4 rounded shadow-lg z-10">
+        <div className="absolute top-4 left-4 bg-white p-4 rounded-lg shadow-lg z-10">
           <h1 className="text-lg font-bold">Welcome to WaterFinder!</h1>
           <Button onClick={() => setShowSubmit(!showSubmit)}>
-            Missing Facility?
+            Add a Facility
           </Button>
         </div>
 
