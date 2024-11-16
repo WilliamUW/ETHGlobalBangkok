@@ -99,9 +99,9 @@ export default function HandleSubmit() {
       const text = geminiResponse.text();
       console.log(text)
       const extractedType = text
-        .split("LocationType: ")[1]
-        .split("Description: ")[0].trim();
-      const extractedDescription = text.split("Description: ")[1].trim();
+        .split("LocationType:")[1]
+        .split("Description:")[0].trim();
+      const extractedDescription = text.split("Description:")[1].trim();
       if (extractedType.includes("Other")) {
         setError(
           "Image is not a Restroom or Water Fountain. Error Description: " +
@@ -148,9 +148,9 @@ export default function HandleSubmit() {
         image,
         description,
       };
-      const imageBlobId =
+      const ipfsCid =
         (await storeStringAndGetBlobId(JSON.stringify(recordData) ?? "")) ?? "";
-      console.log(imageBlobId);
+      console.log(ipfsCid);
       const networkId = await primaryWallet?.getNetwork();
 
       if (networkId == POLYGON) {
@@ -160,7 +160,7 @@ export default function HandleSubmit() {
             abi: wagmiAbi,
             functionName: "addRecord",
             args: [
-              imageBlobId,
+              ipfsCid,
               recordData.latitude.toString(),
               recordData.longitude.toString(),
               recordData.recordType,
