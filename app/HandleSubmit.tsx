@@ -19,6 +19,10 @@ import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
 import { wagmiAbi } from "./abi";
 import {
   account,
+  FLOW,
+  flowContractAddress,
+  flowPublicClient,
+  flowWalletClient,
   POLYGON,
   polygonContractAddress,
   polygonPublicClient,
@@ -175,7 +179,26 @@ export default function HandleSubmit() {
         }
       } else if (networkId == SKALE) {
       } else if (networkId == 2810) {
-      } else if (networkId == 545) {
+      } else if (networkId == FLOW) {
+        if (account && flowWalletClient) {
+          const { request } = await flowPublicClient.simulateContract({
+            address: flowContractAddress,
+            abi: wagmiAbi,
+            functionName: "addRecord",
+            args: [
+              ipfsCid,
+              recordData.latitude.toString(),
+              recordData.longitude.toString(),
+              recordData.recordType,
+              new Uint8Array([recordData.rating])[0],
+            ],
+            account,
+          });
+          const writeContractResponse = await flowWalletClient.writeContract(
+            request
+          );
+          console.log(writeContractResponse);
+        }
       }
 
       setRecordData(recordData);

@@ -1,6 +1,14 @@
 "use client";
 import { IPFSRecord, Record, useAppContext } from "../AppContextProvider";
-import { polygonContractAddress, polygonPublicClient } from "../config";
+import {
+  FLOW,
+  flowContractAddress,
+  flowPublicClient,
+  POLYGON,
+  polygonContractAddress,
+  polygonPublicClient,
+  SKALE,
+} from "../config";
 import { wagmiAbi } from "../abi";
 import { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
@@ -198,24 +206,54 @@ export default function Gallery() {
   }, [records, publicKey]); // Add `records` to the dependency array
 
   useEffect(() => {
-    fetchRecords();
-  }, []);
+    if (publicKey) {
+      fetchRecords();
+    }
+  }, [primaryWallet]);
 
   const fetchRecords = async () => {
-    if (polygonPublicClient) {
+    let client, contractAddress;
+    const networkId = await primaryWallet?.getNetwork();
+
+    // Determine the correct client and contract address based on networkId
+    switch (networkId) {
+      case POLYGON:
+        client = polygonPublicClient;
+        contractAddress = polygonContractAddress;
+        break;
+      case FLOW:
+        client = flowPublicClient;
+        contractAddress = flowContractAddress;
+        break;
+      case SKALE:
+        console.error("SKALE network integration not yet implemented.");
+        return; // Or add SKALE client/contract logic here
+      default:
+        console.error("Unsupported network ID:", networkId);
+        return;
+    }
+
+    // Fetch records from the correct chain
+    if (client) {
       try {
-        const response = await polygonPublicClient.readContract({
-          address: polygonContractAddress,
+        const response = await client.readContract({
+          address: contractAddress as `0x${string}`,
           abi: wagmiAbi,
           functionName: "getAllRecords",
         });
         console.log(response);
         setRecords(response as Record[]);
       } catch (error) {
-        console.error("Error fetching records:", error);
+        console.error(
+          `Error fetching records from network ${networkId}:`,
+          error
+        );
       }
+    } else {
+      console.error("Public client not initialized for the selected network.");
     }
   };
+
   // const [images, setImages] = useState<Record<string, string>>({});
   if (!publicKey) {
     return <SplashPage />;
