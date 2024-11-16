@@ -5,20 +5,22 @@ import {
   flowTestnet,
   scrollSepolia,
   mantleSepoliaTestnet,
+  zircuitTestnet,
 } from "viem/chains";
 
 export const MANTLE = 5003;
 export const POLYGON = 80002;
 export const FLOW = 545;
 export const SCROLL = 534351;
+export const ZIRCUIT = 48899;
 
 export const polygonContractAddress =
   "0x4d0379bbd839b360fac03d0020efd85b220a5cd7";
 export const flowContractAddress = "0x94c19Bf5be886B5dF611A18eA714dE2001927e44";
 export const scrollContractAddress =
   "0x632e69488e25f1bec16a11cf1aa7b2261f2b94ef";
-export const mantleContractAddress =
-  "0x632e69488e25f1bec16a11cf1aa7b2261f2b94ef";
+export const mantleContractAddress = scrollContractAddress;
+export const zircuitContractAddress = scrollContractAddress;
 
 export const polygonPublicClient = createPublicClient({
   chain: polygonAmoy,
@@ -72,6 +74,19 @@ export const mantleWalletClient =
       })
     : null;
 
+export const zircuitPublicClient = createPublicClient({
+  chain: zircuitTestnet,
+  transport: http(),
+});
+
+export const zircuitWalletClient =
+  typeof window !== "undefined" && window.ethereum
+    ? createWalletClient({
+        chain: zircuitTestnet,
+        transport: custom(window.ethereum),
+      })
+    : null;
+
 export const scrollPublicClient = createPublicClient({
   chain: scrollSepolia,
   transport: http(),
@@ -114,6 +129,11 @@ export const getClientContractAddress = (networkId: number) => {
       client = mantlePublicClient;
       walletClient = mantleWalletClient;
       contractAddress = mantleContractAddress;
+      break;
+    case ZIRCUIT:
+      client = zircuitPublicClient;
+      walletClient = zircuitWalletClient;
+      contractAddress = zircuitContractAddress;
       break;
     default:
       console.error("Unsupported network ID:", networkId);
