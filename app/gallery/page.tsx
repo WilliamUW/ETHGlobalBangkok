@@ -216,7 +216,7 @@ export default function Gallery() {
         <div className="absolute top-4 left-4 bg-white p-4 rounded-lg shadow-lg z-10">
           <h1 className="text-lg font-bold">Welcome to WaterFinder!</h1>
           <Button onClick={() => setShowSubmit(!showSubmit)}>
-            Add a Facility
+            {!showSubmit ? "➕ Add a Facility" : "❌ Close Panel"}
           </Button>
         </div>
 
