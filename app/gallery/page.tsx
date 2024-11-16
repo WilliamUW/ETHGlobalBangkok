@@ -7,10 +7,14 @@ import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { Button } from "@/components/ui/button";
 import HandleSubmit from "../HandleSubmit";
+import { motion } from "framer-motion";
+import {Card, CardContent, CardHeader} from "@/components/ui/card";
 
 export default function Gallery() {
   const { records, setRecords } = useAppContext();
   const [showSubmit, setShowSubmit] = useState(false);
+  const [details, setDetails] = useState(false);
+
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
   useEffect(() => {
@@ -56,10 +60,7 @@ export default function Gallery() {
             },
             geometry: {
               type: "Point",
-              coordinates: [
-                record.longitude,
-                record.latitude,
-              ],
+              coordinates: [record.longitude, record.latitude],
             },
           })),
         };
@@ -152,6 +153,9 @@ export default function Gallery() {
           <Button onClick={() => setShowSubmit(!showSubmit)}>
             Missing Facility?
           </Button>
+          <Button onClick={() => setDetails(!details)}>
+            View Records
+          </Button>
         </div>
 
         {showSubmit && (
@@ -161,40 +165,45 @@ export default function Gallery() {
         )}
       </div>
 
-      {/* {false && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {records.map((model, index) => (
-            <motion.div
-              key={index}
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
-            >
-              <Card className="border-2 border-blue-500 rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105">
-                <CardHeader className="p-4 bg-blue-900">
-                  <h2 className="text-2xl font-bold text-white">
-                    {model.species}
-                  </h2>
-                </CardHeader>
-                {model.imageWalrusBlobId in images ? (
-                  <GLB modelUrl={images[model.imageWalrusBlobId]} />
-                ) : (
-                  <p className="text-center">Loading 3D Model...</p>
-                )}
-                <CardContent className="p-4">
-                  <p className="text-md  mb-2">
-                    {model.descriptionWalrusBlobId}
-                  </p>
-                  <p className="text-sm text-blue-400">
-                    Uploaded on {model.timeCaptured} at Location:{" "}
-                    {model.latitude}, {model.longitude}
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
+      {details && (
+        <div className="absolute bottom-4 left-4 z-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {records.map((model, index) => (
+              <motion.div
+                key={index}
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: index * 0.1, duration: 0.5 }}
+              >
+                <Card className="border-2 border-blue-500 rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105">
+                  <CardHeader className="p-4 bg-blue-900">
+                    <h2 className="text-2xl font-bold text-white">
+                      {model.recordType}
+                    </h2>
+                  </CardHeader>
+                  {/* {model.imageWalrusBlobId in images ? (
+                    <GLB modelUrl={images[model.imageWalrusBlobId]} />
+                  ) : (
+                    <p className="text-center">Loading 3D Model...</p>
+                  )} */}
+                  <CardContent className="p-4">
+                    <p className="text-md  mb-2">
+                      {model.ipfsCid}
+                    </p>
+                    <p className="text-md  mb-2">
+                      {model.ratings}
+                    </p>
+                    <p className="text-sm text-blue-400">
+                      Uploaded on {model.timestamp} at Location:{" "}
+                      {model.latitude}, {model.longitude}
+                    </p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
         </div>
-      )} */}
+      )}
     </>
   );
 }
