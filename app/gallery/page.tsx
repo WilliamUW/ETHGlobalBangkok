@@ -82,12 +82,9 @@ export default function Gallery() {
             properties: {
               description: `
                 <div>
-                  <h3>${record.recordType}</h3>
+                  <h3>${record.recordType == "Restroom" ? "🚻" : "🚰"} ${record.recordType} (${record.ratings}/5⭐️)</h3>
                   
-                  <p><strong>Latitude:</strong> ${record.latitude}</p>
-                  <p><strong>Longitude:</strong> ${record.longitude}</p>
-                  <p><strong>Time Captured:</strong> ${record.timestamp}</p>
-                  <button onclick="viewDetails('${record.ipfsCid}')">View More Details</button>
+                  <button onclick="viewDetails('${record.ipfsCid}')">ℹ️ View More Details ℹ️</button>
                 </div>
               `,
             },
