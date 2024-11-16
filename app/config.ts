@@ -1,13 +1,13 @@
 import { createPublicClient, createWalletClient, custom, http } from "viem";
 import {
   polygonAmoy,
-  skaleNebulaTestnet,
   morphHolesky,
   flowTestnet,
   scrollSepolia,
+  mantleSepoliaTestnet,
 } from "viem/chains";
 
-export const SKALE = 37084624;
+export const MANTLE = 5003;
 export const POLYGON = 80002;
 export const FLOW = 545;
 export const SCROLL = 534351;
@@ -15,7 +15,10 @@ export const SCROLL = 534351;
 export const polygonContractAddress =
   "0x4d0379bbd839b360fac03d0020efd85b220a5cd7";
 export const flowContractAddress = "0x94c19Bf5be886B5dF611A18eA714dE2001927e44";
-export const scrollContractAddress = "0x632e69488e25f1bec16a11cf1aa7b2261f2b94ef";
+export const scrollContractAddress =
+  "0x632e69488e25f1bec16a11cf1aa7b2261f2b94ef";
+export const mantleContractAddress =
+  "0x632e69488e25f1bec16a11cf1aa7b2261f2b94ef";
 
 export const polygonPublicClient = createPublicClient({
   chain: polygonAmoy,
@@ -56,15 +59,15 @@ export const morphWalletClient =
       })
     : null;
 
-export const skalePublicClient = createPublicClient({
-  chain: skaleNebulaTestnet,
+export const mantlePublicClient = createPublicClient({
+  chain: mantleSepoliaTestnet,
   transport: http(),
 });
 
-export const skaleWalletClient =
+export const mantleWalletClient =
   typeof window !== "undefined" && window.ethereum
     ? createWalletClient({
-        chain: skaleNebulaTestnet,
+        chain: mantleSepoliaTestnet,
         transport: custom(window.ethereum),
       })
     : null;
@@ -106,6 +109,11 @@ export const getClientContractAddress = (networkId: number) => {
       client = scrollPublicClient;
       walletClient = scrollWalletClient;
       contractAddress = scrollContractAddress;
+      break;
+    case MANTLE:
+      client = mantlePublicClient;
+      walletClient = mantleWalletClient;
+      contractAddress = mantleContractAddress;
       break;
     default:
       console.error("Unsupported network ID:", networkId);
