@@ -71,32 +71,37 @@ export const skaleWalletClient =
 export const account = polygonWalletClient
   ? await polygonWalletClient.getAddresses().then((addresses) => addresses[0])
   : null;
-export const getClientContractAddress = (networkId: number) => {
-  let client, contractAddress;
-
-  // Determine the correct client and contract address based on networkId
-  switch (networkId) {
-    case POLYGON:
+  export const getClientContractAddress = (networkId: number) => {
+    let client, walletClient, contractAddress;
+  
+    // Determine the correct client, wallet client, and contract address based on networkId
+    switch (networkId) {
+      case POLYGON:
+        client = polygonPublicClient;
+        walletClient = polygonWalletClient;
+        contractAddress = polygonContractAddress;
+        break;
+      case FLOW:
+        client = flowPublicClient;
+        walletClient = flowWalletClient;
+        contractAddress = flowContractAddress;
+        break;
+      case SKALE:
+        console.error("SKALE network integration not yet implemented.");
+        break;
+      default:
+        console.error("Unsupported network ID:", networkId);
+        break;
+    }
+  
+    // Fallback to Polygon as default if no client or contractAddress found
+    if (!client || !contractAddress || !walletClient) {
+      console.error("Falling back to Polygon network as default.");
       client = polygonPublicClient;
+      walletClient = polygonWalletClient;
       contractAddress = polygonContractAddress;
-      break;
-    case FLOW:
-      client = flowPublicClient;
-      contractAddress = flowContractAddress;
-      break;
-    case SKALE:
-      console.error("SKALE network integration not yet implemented.");
-      break;
-    default:
-      console.error("Unsupported network ID:", networkId);
-      break;
-  }
-
-  if (!client || !contractAddress) {
-    console.error("Failed to retrieve client or contract address.");
-    client = polygonPublicClient;
-    contractAddress = polygonContractAddress;
-  }
-
-  return { client, contractAddress };
-};
+    }
+  
+    return { client, walletClient, contractAddress };
+  };
+  

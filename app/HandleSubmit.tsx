@@ -23,6 +23,7 @@ import {
   flowContractAddress,
   flowPublicClient,
   flowWalletClient,
+  getClientContractAddress,
   POLYGON,
   polygonContractAddress,
   polygonPublicClient,
@@ -35,7 +36,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { Slider } from "@/components/ui/slider";
-import {Ratings} from "@/components/Ratings";
+import { Ratings } from "@/components/Ratings";
 
 const genAI = new GoogleGenerativeAI(
   process.env.NEXT_PUBLIC_GEMINI_API_KEY || ""
@@ -101,10 +102,11 @@ export default function HandleSubmit() {
 
       const geminiResponse = await result.response;
       const text = geminiResponse.text();
-      console.log(text)
+      console.log(text);
       const extractedType = text
         .split("LocationType:")[1]
-        .split("Description:")[0].trim();
+        .split("Description:")[0]
+        .trim();
       const extractedDescription = text.split("Description:")[1].trim();
       if (extractedType.includes("Other")) {
         setError(
@@ -156,11 +158,13 @@ export default function HandleSubmit() {
         (await storeStringAndGetBlobId(JSON.stringify(recordData) ?? "")) ?? "";
       console.log(ipfsCid);
       const networkId = await primaryWallet?.getNetwork();
+      const { client, walletClient, contractAddress } =
+        getClientContractAddress((networkId as number) ?? POLYGON);
 
-      if (networkId == POLYGON) {
-        if (account && polygonWalletClient) {
-          const { request } = await polygonPublicClient.simulateContract({
-            address: polygonContractAddress,
+      try {
+        if (account && walletClient) {
+          const { request } = await client.simulateContract({
+            address: contractAddress as `0x${string}`,
             abi: wagmiAbi,
             functionName: "addRecord",
             args: [
@@ -172,35 +176,15 @@ export default function HandleSubmit() {
             ],
             account,
           });
-          const writeContractResponse = await polygonWalletClient.writeContract(
+
+          const writeContractResponse = await walletClient.writeContract(
             request
           );
-          console.log(writeContractResponse);
+          console.log("Transaction successful:", writeContractResponse);
         }
-      } else if (networkId == SKALE) {
-      } else if (networkId == 2810) {
-      } else if (networkId == FLOW) {
-        if (account && flowWalletClient) {
-          const { request } = await flowPublicClient.simulateContract({
-            address: flowContractAddress,
-            abi: wagmiAbi,
-            functionName: "addRecord",
-            args: [
-              ipfsCid,
-              recordData.latitude.toString(),
-              recordData.longitude.toString(),
-              recordData.recordType,
-              new Uint8Array([recordData.rating])[0],
-            ],
-            account,
-          });
-          const writeContractResponse = await flowWalletClient.writeContract(
-            request
-          );
-          console.log(writeContractResponse);
-        }
+      } catch (error) {
+        console.error("Error writing record to blockchain:", error);
       }
-
       setRecordData(recordData);
       setStep(4);
     } catch (error) {
@@ -414,7 +398,6 @@ export default function HandleSubmit() {
                     <SelectItem value="Water Fountain">
                       Water Fountain
                     </SelectItem>
-                    <SelectItem value="Other">Other</SelectItem>
                   </SelectContent>
                 </Select>
                 <Textarea
