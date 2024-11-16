@@ -212,6 +212,9 @@ export const getClientContractAddress = (networkId: number) => {
 };
 
 export async function getRandomRewardNumber() {
+  if (!(typeof window !== "undefined" && window.ethereum)) {
+    return 0;
+  }
   const client = createWalletClient({
     chain: baseSepolia,
     // ts-expect-error error
@@ -258,10 +261,10 @@ export async function getRandomRewardNumber() {
 
   console.log("\n4. Waiting for flip result...");
   const result = await new Promise((resolve) => {
-  const unwatch = coinFlipContract.watchEvent.FlipResult({
-    // ts-expect-error error
-    fromBlock: receipt.blockNumber - 1n,
-    onLogs: (logs) => {
+    const unwatch = coinFlipContract.watchEvent.FlipResult({
+      // ts-expect-error error
+      fromBlock: receipt.blockNumber - 1n,
+      onLogs: (logs) => {
         for (const log of logs) {
           if (log.args.sequenceNumber === sequenceNumber) {
             unwatch();
@@ -277,110 +280,110 @@ export async function getRandomRewardNumber() {
 }
 
 const ICoinFlipAbi = [
-	{
-		"inputs": [
-			{
-				"internalType": "uint64",
-				"name": "sequence",
-				"type": "uint64"
-			},
-			{
-				"internalType": "address",
-				"name": "provider",
-				"type": "address"
-			},
-			{
-				"internalType": "bytes32",
-				"name": "randomNumber",
-				"type": "bytes32"
-			}
-		],
-		"name": "_entropyCallback",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_entropy",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "_entropyProvider",
-				"type": "address"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"inputs": [],
-		"name": "InsufficientFee",
-		"type": "error"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "uint64",
-				"name": "sequenceNumber",
-				"type": "uint64"
-			}
-		],
-		"name": "FlipRequest",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "uint64",
-				"name": "sequenceNumber",
-				"type": "uint64"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "result",
-				"type": "uint256"
-			}
-		],
-		"name": "FlipResult",
-		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "bytes32",
-				"name": "userRandomNumber",
-				"type": "bytes32"
-			}
-		],
-		"name": "requestFlip",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"stateMutability": "payable",
-		"type": "receive"
-	},
-	{
-		"inputs": [],
-		"name": "getFlipFee",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "fee",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	}
+  {
+    inputs: [
+      {
+        internalType: "uint64",
+        name: "sequence",
+        type: "uint64",
+      },
+      {
+        internalType: "address",
+        name: "provider",
+        type: "address",
+      },
+      {
+        internalType: "bytes32",
+        name: "randomNumber",
+        type: "bytes32",
+      },
+    ],
+    name: "_entropyCallback",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_entropy",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_entropyProvider",
+        type: "address",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
+    inputs: [],
+    name: "InsufficientFee",
+    type: "error",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint64",
+        name: "sequenceNumber",
+        type: "uint64",
+      },
+    ],
+    name: "FlipRequest",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint64",
+        name: "sequenceNumber",
+        type: "uint64",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "result",
+        type: "uint256",
+      },
+    ],
+    name: "FlipResult",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "userRandomNumber",
+        type: "bytes32",
+      },
+    ],
+    name: "requestFlip",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    stateMutability: "payable",
+    type: "receive",
+  },
+  {
+    inputs: [],
+    name: "getFlipFee",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "fee",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
 ] as const;
