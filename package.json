@@ -12,6 +12,8 @@
     "@dynamic-labs/ethereum": "^3.4.0",
     "@dynamic-labs/flow": "^3.4.0",
     "@dynamic-labs/sdk-react-core": "^3.4.0",
+    "@worldcoin/idkit": "^1.1.4",
+    "@worldcoin/idkit-standalone": "^1.1.4",
     "@google/generative-ai": "^0.21.0",
     "@radix-ui/react-dialog": "^1.1.2",
     "@radix-ui/react-dropdown-menu": "^2.1.2",
