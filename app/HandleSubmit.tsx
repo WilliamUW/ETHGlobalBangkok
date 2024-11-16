@@ -98,8 +98,8 @@ export default function HandleSubmit() {
       const text = geminiResponse.text();
       const extractedType = text
         .split("LocationType: ")[1]
-        .split("Description: ")[0];
-      const extractedDescription = text.split("Description: ")[1];
+        .split("Description: ")[0].trim();
+      const extractedDescription = text.split("Description: ")[1].trim();
       if (extractedType.includes("Other")) {
         setError(
           "Image is not a Restroom or Water Fountain. Error Description: " +
