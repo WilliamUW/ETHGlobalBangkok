@@ -4,6 +4,8 @@ import { CameraIcon, Upload, Box } from "lucide-react";
 // import Image from "next/image";
 import { motion } from "framer-motion";
 import { DynamicWidget } from "@dynamic-labs/sdk-react-core";
+import { Button } from "./ui/button";
+import Link from "next/link";
 
 export const SplashPage = () => (
   <motion.div
@@ -12,7 +14,7 @@ export const SplashPage = () => (
     transition={{ delay: 0.4, duration: 0.5 }}
   >
     <motion.div
-      className="mb-10"
+      className="mb-2"
       initial={{ scale: 0.8, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{ delay: 0.2, duration: 0.5 }}
@@ -22,11 +24,11 @@ export const SplashPage = () => (
     <Card className=" border-2 border-blue-500 rounded-xl shadow-lg overflow-hidden">
       <CardHeader className="text-center">
         <h2 className="text-3xl font-bold text-blue-500 mb-4">
-          Welcome to WaterFinder
+          Welcome to WaterFinder!
         </h2>
       </CardHeader>
       <CardContent className="flex flex-col items-center">
-        <div className="mb-8 relative w-64 h-64">
+        <div className="mb-8 relative w-48 h-48">
           {/* <Image
                   src="/logo.webp"
                   alt="WaterFinder Logo"
@@ -69,6 +71,16 @@ export const SplashPage = () => (
             <p className="text-lg">
               3. Upload any nearby facility to help other users!
             </p>
+          </motion.div>
+          <motion.div
+            className="flex items-center justify-center space-x-4"
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 1, duration: 0.5 }}
+          >
+            <Link href="/gallery" >
+              <Button variant="default" className="bg-blue-500 text-xl p-8">Get Started!</Button>
+            </Link>
           </motion.div>
         </div>
       </CardContent>
