@@ -7,6 +7,7 @@ import { DynamicContextProvider } from "@dynamic-labs/sdk-react-core";
 import { EthereumWalletConnectors } from "@dynamic-labs/ethereum";
 import { FlowWalletConnectors } from "@dynamic-labs/flow";
 import { AppContextProvider } from "./AppContextProvider";
+import {SCROLL} from "./config";
 export const metadata: Metadata = {
   title: "ETHGlobal",
   description: "ETHGlobal",
@@ -79,6 +80,22 @@ const myEvmNetworks = [
     networkId: 545,
     rpcUrls: ['https://testnet.evm.nodes.onflow.org'],
     vanityName: 'EVM on Flow Testnet',
+  },
+  {
+    blockExplorerUrls: ['https://sepolia.scrollscan.com/'],
+    chainId: SCROLL,
+    chainName: 'Scroll Sepolia Testnet',
+    iconUrls: ["https://app.dynamic.xyz/assets/networks/scroll.svg"],
+    name: 'Scroll Sepolia Testnet',
+    nativeCurrency: {
+      decimals: 18,
+      name: 'ETH',
+      symbol: 'ETH',
+      iconUrl: 'https://app.dynamic.xyz/assets/networks/scroll.svg',
+    },
+    networkId: SCROLL,
+    rpcUrls: ['https://scroll-sepolia.chainstacklabs.com'],
+    vanityName: 'Scroll Sepolia Testnet',
   },
 ];
 

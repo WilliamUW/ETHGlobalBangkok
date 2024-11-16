@@ -29,7 +29,7 @@ contract RecordTracker {
     // Constructor to populate records
     constructor() {
         // Record 1
-        addRecord("Mj9_8Ur5mF4cYuIrp859BYL1buCLVab7SBv3u6Y8FUo", "13.728466", "100.559417", "Water Fountain", 5);
+        addRecord("Mj9_8Ur5mF4cYuIrp859BYL1buCLVab7SBv3u6Y8FUo", "13.728466", "100.557417", "Water Fountain", 5);
         addRecord("Mj9_8Ur5mF4cYuIrp859BYL1buCLVab7SBv3u6Y8FUo", "13.724275", "100.557290", "Water Fountain", 5);
         addRecord("Mj9_8Ur5mF4cYuIrp859BYL1buCLVab7SBv3u6Y8FUo", "13.732884", "100.557723", "Water Fountain", 5);
 
@@ -45,7 +45,7 @@ contract RecordTracker {
 
         // Record 4
         addRecord("n6p0dhFyYc4V2U209DVKzTNsdJSf9yt-bc3G8M57gRM", "13.726875", "100.557612", "Restroom", 5);
-        addRecord("n6p0dhFyYc4V2U209DVKzTNsdJSf9yt-bc3G8M57gRM", "13.728953", "100.559237", "Restroom", 5);
+        addRecord("n6p0dhFyYc4V2U209DVKzTNsdJSf9yt-bc3G8M57gRM", "13.728953", "100.557237", "Restroom", 5);
         addRecord("n6p0dhFyYc4V2U209DVKzTNsdJSf9yt-bc3G8M57gRM", "13.731432", "100.552331", "Restroom", 5);
 
         // Record 5
@@ -54,7 +54,7 @@ contract RecordTracker {
         addRecord("WTMe35gA3u-eetIvzXgHFZ3sWdm_-vx8UDXSFdLawjY", "13.732103", "100.555678", "Water Fountain", 5);
 
         // Record 6
-        addRecord("gw8XmacxZ46J1wpvcb7FiHso-C6IF4MUrblRPV2_lFU", "13.728932", "100.559120", "Water Fountain", 3);
+        addRecord("gw8XmacxZ46J1wpvcb7FiHso-C6IF4MUrblRPV2_lFU", "13.728932", "100.557120", "Water Fountain", 3);
         addRecord("gw8XmacxZ46J1wpvcb7FiHso-C6IF4MUrblRPV2_lFU", "13.729452", "100.555200", "Water Fountain", 3);
         addRecord("gw8XmacxZ46J1wpvcb7FiHso-C6IF4MUrblRPV2_lFU", "13.726543", "100.558913", "Water Fountain", 3);
 
