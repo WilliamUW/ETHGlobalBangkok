@@ -5,7 +5,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Loader2, Upload, Camera, Star } from "lucide-react";
+import { Loader2, Upload, Camera } from "lucide-react";
 import Image from "next/image";
 import {
   Select,
@@ -30,6 +30,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { Slider } from "@/components/ui/slider";
+import {Ratings} from "@/components/Ratings";
 
 const genAI = new GoogleGenerativeAI(
   process.env.NEXT_PUBLIC_GEMINI_API_KEY || ""
@@ -398,23 +399,7 @@ export default function HandleSubmit() {
                   className="border border-gray-300 rounded p-2"
                 />
                 <div className="w-full space-y-4">
-                  <div className="flex justify-between items-center">
-                    <div className="flex">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <Star
-                          key={star}
-                          className={`w-6 h-6 ${
-                            star <= rating
-                              ? "text-yellow-400 fill-yellow-400"
-                              : "text-gray-300"
-                          }`}
-                        />
-                      ))}
-                    </div>
-                    <span className="text-sm font-medium">
-                      {rating} out of 5
-                    </span>
-                  </div>
+                  <Ratings ratings={rating} />
                   <Slider
                     defaultValue={[5]}
                     max={5}

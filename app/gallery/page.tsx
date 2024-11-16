@@ -11,9 +11,10 @@ import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { readFromBlobId } from "../utility/walrus";
 import Image from "next/image";
-import { X } from "lucide-react";
+import {  X } from "lucide-react";
 import { SplashPage } from "@/components/SplashPage";
-import {useDynamicContext} from "@dynamic-labs/sdk-react-core";
+import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
+import { Ratings } from "@/components/Ratings";
 
 declare global {
   interface Window {
@@ -230,12 +231,14 @@ export default function Gallery() {
               />
               <CardContent className="p-4">
                 <p className="text-md  mb-2">{details.description}</p>
-                <p className="text-md  mb-2">
-                  {details.ratings ?? details.rating}
-                </p>
+                <Ratings
+                  ratings={parseInt(details.rating ?? "0") ?? details.ratings}
+                />
                 <p className="text-sm text-blue-400">
-                  Uploaded on {details.timestamp} at Location:{" "}
-                  {details.latitude}, {details.longitude}
+                  Uploaded on {details.timestamp}
+                </p>
+                <p className="text-sm text-green-400">
+                  Location: {details.latitude}, {details.longitude}
                 </p>
               </CardContent>
             </Card>
