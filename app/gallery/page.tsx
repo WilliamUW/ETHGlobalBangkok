@@ -11,6 +11,7 @@ import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { readFromBlobId } from "../utility/walrus";
 import Image from "next/image";
+import { X } from "lucide-react";
 
 declare global {
   interface Window {
@@ -32,7 +33,8 @@ export default function Gallery() {
 
         // Simulated readFromBlobId function
         const response: string | null = await readFromBlobId(ipfsCid);
-        if (!response) throw new Error("Failed to fetch IPFS data or response is empty");
+        if (!response)
+          throw new Error("Failed to fetch IPFS data or response is empty");
 
         const data = JSON.parse(response);
         console.log("Fetched data:", data);
@@ -41,7 +43,6 @@ export default function Gallery() {
         console.error("Error fetching IPFS data:", error);
       }
     };
-
   }, []);
   useEffect(() => {
     if (records.length > 0) {
@@ -172,7 +173,7 @@ export default function Gallery() {
       <div
         id="map-container"
         ref={mapContainerRef}
-        style={{ width: "100%", height: "95vh", marginBottom: "2rem" }}
+        style={{ width: "100%", height: "90vh" }}
         className="rounded-lg overflow-hidden relative"
       >
         <div className="absolute top-4 left-4 bg-white p-4 rounded shadow-lg z-10">
@@ -180,7 +181,6 @@ export default function Gallery() {
           <Button onClick={() => setShowSubmit(!showSubmit)}>
             Missing Facility?
           </Button>
-          
         </div>
 
         {showSubmit && (
@@ -191,38 +191,49 @@ export default function Gallery() {
       </div>
 
       {details && (
-        <div className="absolute bottom-4 left-4 z-10">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 0.1, duration: 0.5 }}
+        <div className="absolute bottom-0 w-full z-10">
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.1, duration: 0.5 }}
+          >
+            <Card
+              className="h-[50vh] md:w-[50%] overflow-y-auto border-2 border-blue-500 rounded-xl shadow-lg"
+              style={{ maxHeight: "50vh" }}
             >
-              <Card className="border-2 border-blue-500 rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105">
-                <CardHeader className="p-4 bg-blue-900">
-                  <h2 className="text-2xl font-bold text-white">
-                    {details.recordType ?? details.locationType}
-                  </h2>
-                  <Button onClick={() => setDetails(null)}>X</Button>
-                </CardHeader>
-                <Image
-                  src={details.image}
-                  alt="WaterFinder Logo"
-                  width={256}
-                  height={256}
-                  className="rounded-md"
-                />
-                <CardContent className="p-4">
-                  <p className="text-md  mb-2">{details.description}</p>
-                  <p className="text-md  mb-2">{details.ratings ?? details.rating}</p>
-                  <p className="text-sm text-blue-400">
-                    Uploaded on {details.timestamp} at Location:{" "}
-                    {details.latitude}, {details.longitude}
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
-          </div>
+              <CardHeader className="flex justify-between items-center p-4 bg-blue-900">
+                <h2 className="text-2xl font-bold text-white">
+                  {details.recordType ?? details.locationType}
+                </h2>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setDetails(null)}
+                  aria-label="Close"
+                  className="absolute top-2 right-2 p-2"
+                >
+                  <X className="h-5 w-5 text-white" />
+                </Button>
+              </CardHeader>
+              <Image
+                src={details.image}
+                alt="WaterFinder Logo"
+                width={256}
+                height={256}
+                className="rounded-md"
+              />
+              <CardContent className="p-4">
+                <p className="text-md  mb-2">{details.description}</p>
+                <p className="text-md  mb-2">
+                  {details.ratings ?? details.rating}
+                </p>
+                <p className="text-sm text-blue-400">
+                  Uploaded on {details.timestamp} at Location:{" "}
+                  {details.latitude}, {details.longitude}
+                </p>
+              </CardContent>
+            </Card>
+          </motion.div>
         </div>
       )}
     </>
