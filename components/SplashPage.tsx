@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { DynamicWidget } from "@dynamic-labs/sdk-react-core";
 import { Button } from "./ui/button";
 import Link from "next/link";
-import { IDKitWidget, VerificationLevel } from '@worldcoin/idkit'
+import { IDKitWidget, VerificationLevel, ISuccessResult } from '@worldcoin/idkit'
 
 
 export const SplashPage = () => {
@@ -14,6 +14,18 @@ export const SplashPage = () => {
   const onSuccess = () => {
     setIsVerified(true);
   };
+  const handleVerify = async (proof: ISuccessResult) => {
+    const res = await fetch("/api/verify", { // route to your backend will depend on implementation
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(proof),
+    })
+    if (!res.ok) {
+        throw new Error("Verification failed."); // IDKit will display the error message to the user in the modal
+    }
+};
   return (
     <motion.div
       initial={{ scale: 0.8, opacity: 0 }}
@@ -31,6 +43,7 @@ export const SplashPage = () => {
           action="verify"
           signal="user_value" // any arbitrary value the user is committing to, e.g. a vote
           onSuccess={onSuccess}
+          handleVerify={handleVerify} // callback when the proof is received
           verification_level={VerificationLevel.Device} // minimum verification level accepted, defaults to "orb"
         >
           {({ open }) => (
