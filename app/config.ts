@@ -242,6 +242,7 @@ export async function getRandomRewardNumber() {
   const flipTxHash = await coinFlipContract.write.requestFlip([randomNumber], {
     // ts-expect-error error
     value: flipFee,
+    account
   });
   console.log(`Transaction Hash: ${flipTxHash}`);
 
