@@ -6,12 +6,12 @@ import { motion } from "framer-motion";
 import { DynamicWidget } from "@dynamic-labs/sdk-react-core";
 import { Button } from "./ui/button";
 import Link from "next/link";
-import { IDKit } from "@worldcoin/idkit-standalone";
-import { IDKitWidget } from "@worldcoin/idkit";
+import { IDKitWidget, VerificationLevel } from '@worldcoin/idkit'
+
 
 export const SplashPage = () => {
   const [isVerified, setIsVerified] = useState(false);
-  const onSuccess = (data) => {
+  const onSuccess = () => {
     setIsVerified(true);
   };
   return (
@@ -27,11 +27,11 @@ export const SplashPage = () => {
         transition={{ delay: 0.2, duration: 0.5 }}
       >
         <IDKitWidget
-          app_id="app_staging_dfbbb6c8ef7b17bae66db523a50c4b30" // obtained from the Developer Portal
-          action="ethlondon_verify_uniqueness_7375" // this is your action name from the Developer Portal
+          app_id="app_4020275d788fc6f5664d986dd931e5e6"
+          action="verify"
           signal="user_value" // any arbitrary value the user is committing to, e.g. a vote
           onSuccess={onSuccess}
-          verification_level="device" // minimum verification level accepted, defaults to "orb"
+          verification_level={VerificationLevel.Device} // minimum verification level accepted, defaults to "orb"
         >
           {({ open }) => (
             <Button onClick={open}>
