@@ -85,6 +85,9 @@ By using Hydrofy, you’re helping over **53% of people who struggle to find pub
 
 ---
 
+## Team:
+- [William Wang @heywilliamwang](https://x.com/heywilliamwang)
+
 Made with ❤️ during **ETHGlobal Bangkok**. ✨  
 Let’s make the world a more comfortable place—one restroom and water fountain at a time! 💧🚻✨  
 
