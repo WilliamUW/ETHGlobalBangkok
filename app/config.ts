@@ -1,4 +1,14 @@
-import { createPublicClient, createWalletClient, custom, http } from "viem";
+import {
+  createPublicClient,
+  createWalletClient,
+  custom,
+  getContract,
+  http,
+  parseEventLogs,
+  publicActions,
+} from "viem";
+import crypto from "crypto";
+
 import {
   polygonAmoy,
   morphHolesky,
@@ -200,3 +210,176 @@ export const getClientContractAddress = (networkId: number) => {
 
   return { client, walletClient, contractAddress };
 };
+
+export async function getRandomRewardNumber() {
+  const client = createWalletClient({
+    chain: baseSepolia,
+    // ts-expect-error error
+    transport: custom(window.ethereum),
+  }).extend(publicActions);
+  const coinFlipContract = getContract({
+    address: "0x7c9d318bF4ac2B2B58468eE38eB107F4FFA0c5fB",
+    abi: ICoinFlipAbi,
+    client,
+  });
+  console.log("1. Generating user's random number...");
+
+  const randomNumber: `0x${string}` = `0x${crypto
+    .randomBytes(32)
+    .toString("hex")}`;
+  console.log(`User Generated Random number: ${randomNumber}`);
+
+  console.log("\n2. Requesting coin flip...");
+
+  const flipFee = await coinFlipContract.read.getFlipFee();
+  console.log(`Flip Fee: ${flipFee} wei`);
+
+  console.log("\n3. Sending request to flip coin...");
+
+  const flipTxHash = await coinFlipContract.write.requestFlip([randomNumber], {
+    // ts-expect-error error
+    value: flipFee,
+  });
+  console.log(`Transaction Hash: ${flipTxHash}`);
+
+  const receipt = await client.waitForTransactionReceipt({
+    hash: flipTxHash,
+  });
+
+  const logs = parseEventLogs({
+    abi: ICoinFlipAbi,
+    eventName: "FlipRequest",
+    logs: receipt.logs,
+  });
+
+  const sequenceNumber = logs[0].args.sequenceNumber;
+
+  console.log(`\nSequence Number: ${sequenceNumber}`);
+
+  console.log("\n4. Waiting for flip result...");
+  const result = await new Promise((resolve) => {
+  const unwatch = coinFlipContract.watchEvent.FlipResult({
+    // ts-expect-error error
+    fromBlock: receipt.blockNumber - 1n,
+    onLogs: (logs) => {
+        for (const log of logs) {
+          if (log.args.sequenceNumber === sequenceNumber) {
+            unwatch();
+            resolve(log.args.result);
+          }
+        }
+      },
+    });
+  });
+
+  console.log(`\nFlip Result: ${result}`);
+}
+
+const ICoinFlipAbi = [
+	{
+		"inputs": [
+			{
+				"internalType": "uint64",
+				"name": "sequence",
+				"type": "uint64"
+			},
+			{
+				"internalType": "address",
+				"name": "provider",
+				"type": "address"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "randomNumber",
+				"type": "bytes32"
+			}
+		],
+		"name": "_entropyCallback",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_entropy",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_entropyProvider",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [],
+		"name": "InsufficientFee",
+		"type": "error"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint64",
+				"name": "sequenceNumber",
+				"type": "uint64"
+			}
+		],
+		"name": "FlipRequest",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint64",
+				"name": "sequenceNumber",
+				"type": "uint64"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "result",
+				"type": "uint256"
+			}
+		],
+		"name": "FlipResult",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "userRandomNumber",
+				"type": "bytes32"
+			}
+		],
+		"name": "requestFlip",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"stateMutability": "payable",
+		"type": "receive"
+	},
+	{
+		"inputs": [],
+		"name": "getFlipFee",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "fee",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+] as const;
