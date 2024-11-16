@@ -39,13 +39,13 @@ export default function Home() {
             </CardHeader>
             <CardContent className="flex flex-col items-center">
               <div className="mb-8 relative w-64 h-64">
-                <Image
+                {/* <Image
                   src="/logo.webp"
                   alt="WaterFinder Logo"
                   width={256}
                   height={256}
                   className="rounded-full"
-                />
+                /> */}
                 <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
                   <Box className="w-32 h-32 text-blue-500 animate-pulse" />
                 </div>

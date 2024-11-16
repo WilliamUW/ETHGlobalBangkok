@@ -17,13 +17,13 @@ export const AppContextProvider = ({ children }: AppContextProviderProps) => {
 };
 
 export interface Record {
-  species: string;
-  timeCaptured: string;
-  imageWalrusBlobId: string;
-  descriptionWalrusBlobId: string;
+  ipfsCid: string;
   latitude: string;
   longitude: string;
-  userAddress: string;
+  recordType: string;
+  timestamp: bigint;
+  isDeleted: boolean;
+  ratings: number;
 }
 
 // Define the context value type

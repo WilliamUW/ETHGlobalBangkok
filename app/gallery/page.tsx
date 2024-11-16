@@ -46,21 +46,19 @@ export default function Gallery() {
             properties: {
               description: `
                 <div>
-                  <h3>${record.species}</h3>
+                  <h3>${record.recordType}</h3>
                   
                   <p><strong>Latitude:</strong> ${record.latitude}</p>
                   <p><strong>Longitude:</strong> ${record.longitude}</p>
-                  <p><strong>Time Captured:</strong> ${record.timeCaptured}</p>
-                  <p><strong>Description:</strong> ${record.descriptionWalrusBlobId}</p>
-                  <p><strong>User Address:</strong> ${record.userAddress}</p>
+                  <p><strong>Time Captured:</strong> ${record.timestamp}</p>
                 </div>
               `,
             },
             geometry: {
               type: "Point",
               coordinates: [
-                parseFloat(record.longitude),
-                parseFloat(record.latitude),
+                record.longitude,
+                record.latitude,
               ],
             },
           })),
@@ -128,7 +126,7 @@ export default function Gallery() {
     if (polygonPublicClient) {
       try {
         const response = await polygonPublicClient.readContract({
-          address: "0xd085b8453F825C17b5DAb796D41B18a9282369e3",
+          address: "0xe82f3275779792da70477c359b7aa27d1b66524b",
           abi: wagmiAbi,
           functionName: "getAllRecords",
         });

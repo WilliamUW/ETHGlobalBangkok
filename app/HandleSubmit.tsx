@@ -115,6 +115,10 @@ export default function HandleSubmit() {
     } catch (error) {
       console.error(error);
       setError("Error. Please try again. " + error);
+      setDescription("Sample Description");
+      setLocationType("Water Fountain");
+      // setName(extractedType);
+      setStep(3);
     } finally {
       setIsLoading(false);
     }
@@ -150,16 +154,15 @@ export default function HandleSubmit() {
       if (networkId == POLYGON) {
         if (account && polygonWalletClient) {
           const { request } = await polygonPublicClient.simulateContract({
-            address: "0xd085b8453F825C17b5DAb796D41B18a9282369e3",
+            address: "0xe82f3275779792da70477c359b7aa27d1b66524b",
             abi: wagmiAbi,
             functionName: "addRecord",
             args: [
-              recordData.locationType,
+              imageBlobId,
               recordData.latitude.toString(),
               recordData.longitude.toString(),
-              recordData.timestamp,
-              recordData.timestamp,
-              recordData.description,
+              recordData.locationType,
+              new Uint8Array([recordData.rating])[0],
             ],
             account,
           });
