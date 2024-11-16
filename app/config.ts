@@ -273,6 +273,7 @@ export async function getRandomRewardNumber() {
   });
 
   console.log(`\nFlip Result: ${result}`);
+  return result;
 }
 
 const ICoinFlipAbi = [
