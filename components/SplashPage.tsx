@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { CameraIcon, Droplet, Wallet } from "lucide-react";
 // import Image from "next/image";
@@ -6,8 +6,12 @@ import { motion } from "framer-motion";
 import { DynamicWidget } from "@dynamic-labs/sdk-react-core";
 import { Button } from "./ui/button";
 import Link from "next/link";
-import { IDKitWidget, VerificationLevel, ISuccessResult } from '@worldcoin/idkit'
-
+import {
+  IDKitWidget,
+  VerificationLevel,
+  ISuccessResult,
+} from "@worldcoin/idkit";
+import { verify } from "../app/utility/verifyBackend";
 
 export const SplashPage = () => {
   const [isVerified, setIsVerified] = useState(false);
@@ -15,17 +19,13 @@ export const SplashPage = () => {
     setIsVerified(true);
   };
   const handleVerify = async (proof: ISuccessResult) => {
-    const res = await fetch("/api/verify", { // route to your backend will depend on implementation
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(proof),
-    })
-    if (!res.ok) {
-        throw new Error("Verification failed."); // IDKit will display the error message to the user in the modal
+    const data = await verify(proof);
+    if (data.success) {
+      console.log("Successful response from backend:\n", JSON.stringify(data)); // Log the response from our backend for visibility
+    } else {
+      throw new Error(`Verification failed: ${data.detail}`);
     }
-};
+  };
   return (
     <motion.div
       initial={{ scale: 0.8, opacity: 0 }}
