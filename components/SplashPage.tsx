@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import { CameraIcon, Upload, Box, Droplet, Wallet } from "lucide-react";
+import { CameraIcon, Droplet, Wallet } from "lucide-react";
 // import Image from "next/image";
 import { motion } from "framer-motion";
 import { DynamicWidget } from "@dynamic-labs/sdk-react-core";

@@ -1,14 +1,8 @@
 "use client";
 import { IPFSRecord, Record, useAppContext } from "../AppContextProvider";
 import {
-  FLOW,
-  flowContractAddress,
-  flowPublicClient,
   getClientContractAddress,
   POLYGON,
-  polygonContractAddress,
-  polygonPublicClient,
-  SKALE,
 } from "../config";
 import { wagmiAbi } from "../abi";
 import { useEffect, useRef, useState } from "react";
