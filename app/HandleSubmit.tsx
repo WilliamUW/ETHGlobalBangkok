@@ -84,7 +84,6 @@ export default function HandleSubmit() {
       }
       const format = image?.split(";")[0].slice(5);
       const base64Image = image?.split(",")[1];
-      console.log(format, base64Image);
       const result = await model.generateContent([
         "Analyze this picture and return what it is, and a description of the image.",
         {
@@ -97,6 +96,7 @@ export default function HandleSubmit() {
 
       const geminiResponse = await result.response;
       const text = geminiResponse.text();
+      console.log(text)
       const extractedType = text
         .split("LocationType: ")[1]
         .split("Description: ")[0].trim();
