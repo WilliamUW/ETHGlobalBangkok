@@ -26,6 +26,13 @@ export interface Record {
   ratings: number;
 }
 
+export interface IPFSRecord extends Record {
+  image: string;
+  rating?: string;
+  locationType?: string;
+  description: string;
+}
+
 // Define the context value type
 interface AppContextType {
   records: Record[];

@@ -1,5 +1,5 @@
 "use client";
-import { Record, useAppContext } from "../AppContextProvider";
+import { IPFSRecord, Record, useAppContext } from "../AppContextProvider";
 import { polygonPublicClient } from "../config";
 import { wagmiAbi } from "../abi";
 import { useEffect, useRef, useState } from "react";
@@ -8,15 +8,41 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import { Button } from "@/components/ui/button";
 import HandleSubmit from "../HandleSubmit";
 import { motion } from "framer-motion";
-import {Card, CardContent, CardHeader} from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { readFromBlobId } from "../utility/walrus";
+import Image from "next/image";
 
+declare global {
+  interface Window {
+    viewDetails: (ipfsCid: string) => Promise<void>;
+  }
+}
 export default function Gallery() {
   const { records, setRecords } = useAppContext();
   const [showSubmit, setShowSubmit] = useState(false);
-  const [details, setDetails] = useState(false);
+  const [details, setDetails] = useState<IPFSRecord | null>(null);
 
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
+  useEffect(() => {
+    // Expose viewDetails globally for the button
+    window.viewDetails = async (ipfsCid: string): Promise<void> => {
+      try {
+        console.log("Fetching details for CID:", ipfsCid);
+
+        // Simulated readFromBlobId function
+        const response: string | null = await readFromBlobId(ipfsCid);
+        if (!response) throw new Error("Failed to fetch IPFS data or response is empty");
+
+        const data = JSON.parse(response);
+        console.log("Fetched data:", data);
+        setDetails(data); // Save the data in state to display it
+      } catch (error: unknown) {
+        console.error("Error fetching IPFS data:", error);
+      }
+    };
+
+  }, []);
   useEffect(() => {
     if (records.length > 0) {
       mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN ?? "";
@@ -55,6 +81,7 @@ export default function Gallery() {
                   <p><strong>Latitude:</strong> ${record.latitude}</p>
                   <p><strong>Longitude:</strong> ${record.longitude}</p>
                   <p><strong>Time Captured:</strong> ${record.timestamp}</p>
+                  <button onclick="viewDetails('${record.ipfsCid}')">View More Details</button>
                 </div>
               `,
             },
@@ -153,9 +180,7 @@ export default function Gallery() {
           <Button onClick={() => setShowSubmit(!showSubmit)}>
             Missing Facility?
           </Button>
-          <Button onClick={() => setDetails(!details)}>
-            View Records
-          </Button>
+          
         </div>
 
         {showSubmit && (
@@ -168,39 +193,35 @@ export default function Gallery() {
       {details && (
         <div className="absolute bottom-4 left-4 z-10">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {records.map((model, index) => (
-              <motion.div
-                key={index}
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
-              >
-                <Card className="border-2 border-blue-500 rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105">
-                  <CardHeader className="p-4 bg-blue-900">
-                    <h2 className="text-2xl font-bold text-white">
-                      {model.recordType}
-                    </h2>
-                  </CardHeader>
-                  {/* {model.imageWalrusBlobId in images ? (
-                    <GLB modelUrl={images[model.imageWalrusBlobId]} />
-                  ) : (
-                    <p className="text-center">Loading 3D Model...</p>
-                  )} */}
-                  <CardContent className="p-4">
-                    <p className="text-md  mb-2">
-                      {model.ipfsCid}
-                    </p>
-                    <p className="text-md  mb-2">
-                      {model.ratings}
-                    </p>
-                    <p className="text-sm text-blue-400">
-                      Uploaded on {model.timestamp} at Location:{" "}
-                      {model.latitude}, {model.longitude}
-                    </p>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.1, duration: 0.5 }}
+            >
+              <Card className="border-2 border-blue-500 rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105">
+                <CardHeader className="p-4 bg-blue-900">
+                  <h2 className="text-2xl font-bold text-white">
+                    {details.recordType ?? details.locationType}
+                  </h2>
+                  <Button onClick={() => setDetails(null)}>X</Button>
+                </CardHeader>
+                <Image
+                  src={details.image}
+                  alt="WaterFinder Logo"
+                  width={256}
+                  height={256}
+                  className="rounded-md"
+                />
+                <CardContent className="p-4">
+                  <p className="text-md  mb-2">{details.description}</p>
+                  <p className="text-md  mb-2">{details.ratings ?? details.rating}</p>
+                  <p className="text-sm text-blue-400">
+                    Uploaded on {details.timestamp} at Location:{" "}
+                    {details.latitude}, {details.longitude}
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
           </div>
         </div>
       )}

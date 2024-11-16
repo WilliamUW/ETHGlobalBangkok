@@ -3,7 +3,7 @@
 import React from "react";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { CameraIcon, Upload, Box } from "lucide-react";
-import Image from "next/image";
+// import Image from "next/image";
 import { DynamicWidget, useDynamicContext } from "@dynamic-labs/sdk-react-core";
 import { motion } from "framer-motion";
 

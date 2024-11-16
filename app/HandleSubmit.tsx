@@ -45,7 +45,7 @@ export default function HandleSubmit() {
   const publicKey = primaryWallet?.address;
 
   const [step, setStep] = useState(1);
-  const [locationType, setLocationType] = useState<string>("");
+  const [recordType, setRecordType] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [image, setImage] = useState<string | null>(null);
   const [recordData, setRecordData] = useState<object | null>(null);
@@ -107,7 +107,7 @@ export default function HandleSubmit() {
         );
       } else {
         setDescription(extractedDescription);
-        setLocationType(extractedType);
+        setRecordType(extractedType);
         // setName(extractedType);
         console.log(text);
         setStep(3);
@@ -116,7 +116,7 @@ export default function HandleSubmit() {
       console.error(error);
       setError("Error. Please try again. " + error);
       setDescription("Sample Description");
-      setLocationType("Water Fountain");
+      setRecordType("Water Fountain");
       // setName(extractedType);
       setStep(3);
     } finally {
@@ -142,7 +142,7 @@ export default function HandleSubmit() {
         latitude,
         longitude,
         timestamp,
-        locationType,
+        recordType,
         image,
         description,
       };
@@ -161,7 +161,7 @@ export default function HandleSubmit() {
               imageBlobId,
               recordData.latitude.toString(),
               recordData.longitude.toString(),
-              recordData.locationType,
+              recordData.recordType,
               new Uint8Array([recordData.rating])[0],
             ],
             account,
@@ -379,9 +379,9 @@ export default function HandleSubmit() {
                   onChange={(e) => setLongitude(parseFloat(e.target.value))}
                   className="border border-gray-300 rounded p-2"
                 />
-                <Select value={locationType} onValueChange={setLocationType}>
+                <Select value={recordType} onValueChange={setRecordType}>
                   <SelectTrigger className="border border-gray-300 rounded p-2">
-                    {locationType ? locationType : "Select Type"}
+                    {recordType ? recordType : "Select Type"}
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="Restroom">Restroom</SelectItem>
