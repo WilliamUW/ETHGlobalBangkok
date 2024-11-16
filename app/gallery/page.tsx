@@ -223,7 +223,7 @@ export default function Gallery() {
         </div>
 
         {showSubmit && (
-          <div className="absolute top-32 left-4 z-10">
+          <div className="absolute top-32 left-0 z-10">
             <HandleSubmit />
           </div>
         )}

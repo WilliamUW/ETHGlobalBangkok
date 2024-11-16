@@ -256,16 +256,16 @@ export default function HandleSubmit() {
   }, [step, longitude, latitude]);
 
   return (
-    <div className="w-96 h-[700px] rounded-lg shadow-lg overflow-hidden">
-      <div className="h-full overflow-y-auto p-4">
+    <div className="w-96 h-[700px] rounded-lg shadow-lg overflow-hidden p-4">
+      <div className="h-full overflow-y-auto">
         {publicKey && step === 1 && (
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
-            <Card className="bg-white border-8 border-yellow-400 rounded-3xl shadow-lg">
-              <CardHeader className="text-center text-2xl font-bold text-red-600">
+            <Card className="bg-white border-8 border-blue-400 rounded-3xl shadow-lg">
+              <CardHeader className="text-center text-2xl font-bold text-blue-600">
                 Record a Facility
               </CardHeader>
               <CardContent>
@@ -298,7 +298,7 @@ export default function HandleSubmit() {
                 >
                   <Button
                     onClick={handleCapture}
-                    className="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-4 rounded-full transition-all duration-300 transform hover:scale-105"
+                    className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-full transition-all duration-300 transform hover:scale-105"
                   >
                     <Camera className="mr-2 h-6 w-6" /> Capture
                   </Button>
@@ -334,7 +334,7 @@ export default function HandleSubmit() {
             <CardContent>
               <Image
                 src={image ?? ""}
-                alt="Captured"
+                alt="Captublue"
                 width={300}
                 height={300}
                 className="mb-4 max-w-full h-auto object-cover rounded-lg"
@@ -452,7 +452,7 @@ export default function HandleSubmit() {
                 {image && (
                   <Image
                     src={image}
-                    alt="Captured"
+                    alt="Captublue"
                     width={300}
                     height={300}
                     className="mb-4 max-w-full h-auto object-cover rounded-lg"
@@ -479,7 +479,7 @@ export default function HandleSubmit() {
         {error && (
           <Alert
             variant="destructive"
-            className="animate-shake bg-red-900 border-red-500 "
+            className="animate-shake bg-blue-900 border-blue-500 "
           >
             <AlertTitle>Error</AlertTitle>
             <AlertDescription>{error}</AlertDescription>
