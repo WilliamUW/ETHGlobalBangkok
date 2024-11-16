@@ -394,9 +394,9 @@ export default function HandleSubmit() {
                     {recordType ? recordType : "Select Type"}
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Restroom">Restroom</SelectItem>
+                    <SelectItem value="Restroom">🚻 Restroom</SelectItem>
                     <SelectItem value="Water Fountain">
-                      Water Fountain
+                      🚰 Water Fountain
                     </SelectItem>
                   </SelectContent>
                 </Select>

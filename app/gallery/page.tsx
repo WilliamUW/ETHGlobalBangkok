@@ -210,7 +210,7 @@ export default function Gallery() {
     if (publicKey) {
       fetchRecords();
     }
-  }, [primaryWallet]);
+  }, [publicKey]);
 
   const fetchRecords = async () => {
     const networkId = await primaryWallet?.getNetwork();
