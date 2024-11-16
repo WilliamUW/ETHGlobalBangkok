@@ -7,6 +7,7 @@ import {
   mantleSepoliaTestnet,
   zircuitTestnet,
   baseSepolia,
+  lineaSepolia,
 } from "viem/chains";
 
 export const MANTLE = 5003;
@@ -27,6 +28,8 @@ export const zircuitContractAddress =
 export const morphContractAddress =
   "0xf0796fa044982b81514b9172834fe64e681723cc";
 export const baseContractAddress = "0x968d147e523eed619180030e502c95700f1228b6";
+export const lineaContractAddress =
+  "0x632e69488e25f1bec16a11cf1aa7b2261f2b94ef";
 
 export const polygonPublicClient = createPublicClient({
   chain: polygonAmoy,
@@ -119,6 +122,19 @@ export const baseWalletClient =
       })
     : null;
 
+export const lineaPublicClient = createPublicClient({
+  chain: lineaSepolia,
+  transport: http(),
+});
+
+export const lineaWalletClient =
+  typeof window !== "undefined" && window.ethereum
+    ? createWalletClient({
+        chain: lineaSepolia,
+        transport: custom(window.ethereum),
+      })
+    : null;
+
 // JSON-RPC Account
 // ts-expect-error await
 export const account = polygonWalletClient
@@ -163,6 +179,11 @@ export const getClientContractAddress = (networkId: number) => {
       client = basePublicClient;
       walletClient = baseWalletClient;
       contractAddress = baseContractAddress;
+      break;
+    case lineaSepolia.id:
+      client = lineaPublicClient;
+      walletClient = lineaWalletClient;
+      contractAddress = lineaContractAddress;
       break;
     default:
       console.error("Unsupported network ID:", networkId);
