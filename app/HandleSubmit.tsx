@@ -20,7 +20,7 @@ import { wagmiAbi } from "./abi";
 import {
   account,
   POLYGON,
-  polygonContract,
+  polygonContractAddress,
   polygonPublicClient,
   polygonWalletClient,
   SKALE,
@@ -156,7 +156,7 @@ export default function HandleSubmit() {
       if (networkId == POLYGON) {
         if (account && polygonWalletClient) {
           const { request } = await polygonPublicClient.simulateContract({
-            address: polygonContract,
+            address: polygonContractAddress,
             abi: wagmiAbi,
             functionName: "addRecord",
             args: [

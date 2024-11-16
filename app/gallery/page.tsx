@@ -1,6 +1,6 @@
 "use client";
 import { IPFSRecord, Record, useAppContext } from "../AppContextProvider";
-import { polygonContract, polygonPublicClient } from "../config";
+import { polygonContractAddress, polygonPublicClient } from "../config";
 import { wagmiAbi } from "../abi";
 import { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
@@ -190,7 +190,7 @@ export default function Gallery() {
     if (polygonPublicClient) {
       try {
         const response = await polygonPublicClient.readContract({
-          address: polygonContract,
+          address: polygonContractAddress,
           abi: wagmiAbi,
           functionName: "getAllRecords",
         });

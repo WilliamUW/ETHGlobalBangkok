@@ -9,7 +9,7 @@ import {
 export const SKALE = 37084624;
 export const POLYGON = 80002;
 
-export const polygonContract = "0x0a09d03de8962ee30f4118230e6b224c5fcf8f23";
+export const polygonContractAddress = "0x4d0379bbd839b360fac03d0020efd85b220a5cd7";
 
 export const polygonPublicClient = createPublicClient({
   chain: polygonAmoy,
