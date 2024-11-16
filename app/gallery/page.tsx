@@ -4,6 +4,7 @@ import {
   FLOW,
   flowContractAddress,
   flowPublicClient,
+  getClientContractAddress,
   POLYGON,
   polygonContractAddress,
   polygonPublicClient,
@@ -212,26 +213,10 @@ export default function Gallery() {
   }, [primaryWallet]);
 
   const fetchRecords = async () => {
-    let client, contractAddress;
     const networkId = await primaryWallet?.getNetwork();
 
-    // Determine the correct client and contract address based on networkId
-    switch (networkId) {
-      case POLYGON:
-        client = polygonPublicClient;
-        contractAddress = polygonContractAddress;
-        break;
-      case FLOW:
-        client = flowPublicClient;
-        contractAddress = flowContractAddress;
-        break;
-      case SKALE:
-        console.error("SKALE network integration not yet implemented.");
-        return; // Or add SKALE client/contract logic here
-      default:
-        console.error("Unsupported network ID:", networkId);
-        return;
-    }
+    const clientAndAddress = getClientContractAddress(networkId as number ?? POLYGON);
+    const { client, contractAddress } = clientAndAddress;
 
     // Fetch records from the correct chain
     if (client) {

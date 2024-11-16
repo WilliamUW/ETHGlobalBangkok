@@ -10,8 +10,9 @@ export const SKALE = 37084624;
 export const POLYGON = 80002;
 export const FLOW = 545;
 
-export const polygonContractAddress = "0x4d0379bbd839b360fac03d0020efd85b220a5cd7";
-export const flowContractAddress = "0x94c19Bf5be886B5dF611A18eA714dE2001927e44"
+export const polygonContractAddress =
+  "0x4d0379bbd839b360fac03d0020efd85b220a5cd7";
+export const flowContractAddress = "0x94c19Bf5be886B5dF611A18eA714dE2001927e44";
 
 export const polygonPublicClient = createPublicClient({
   chain: polygonAmoy,
@@ -70,3 +71,32 @@ export const skaleWalletClient =
 export const account = polygonWalletClient
   ? await polygonWalletClient.getAddresses().then((addresses) => addresses[0])
   : null;
+export const getClientContractAddress = (networkId: number) => {
+  let client, contractAddress;
+
+  // Determine the correct client and contract address based on networkId
+  switch (networkId) {
+    case POLYGON:
+      client = polygonPublicClient;
+      contractAddress = polygonContractAddress;
+      break;
+    case FLOW:
+      client = flowPublicClient;
+      contractAddress = flowContractAddress;
+      break;
+    case SKALE:
+      console.error("SKALE network integration not yet implemented.");
+      break;
+    default:
+      console.error("Unsupported network ID:", networkId);
+      break;
+  }
+
+  if (!client || !contractAddress) {
+    console.error("Failed to retrieve client or contract address.");
+    client = polygonPublicClient;
+    contractAddress = polygonContractAddress;
+  }
+
+  return { client, contractAddress };
+};
