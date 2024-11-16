@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import { CameraIcon, Upload, Box } from "lucide-react";
+import { CameraIcon, Upload, Box, Droplet, Wallet } from "lucide-react";
 // import Image from "next/image";
 import { motion } from "framer-motion";
 import { DynamicWidget } from "@dynamic-labs/sdk-react-core";
@@ -37,7 +37,7 @@ export const SplashPage = () => (
                   className="rounded-full"
                 /> */}
           <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-            <Box className="w-32 h-32 text-blue-500 animate-pulse" />
+            <Droplet className="w-32 h-32 text-blue-500 animate-pulse" />
           </div>
         </div>
         <div className="space-y-6 w-full ">
@@ -47,7 +47,7 @@ export const SplashPage = () => (
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.5 }}
           >
-            <Box className="w-8 h-8 text-blue-500" />
+            <Wallet className="w-8 h-8 text-blue-500" />
             <p className="text-lg">1. Connect your wallet</p>
           </motion.div>
           <motion.div
@@ -56,7 +56,7 @@ export const SplashPage = () => (
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: 0.8, duration: 0.5 }}
           >
-            <Upload className="w-8 h-8 text-blue-500" />
+            <Droplet className="w-8 h-8 text-blue-500" />
             <p className="text-lg">
               2. See all the nearby water fountains and restrooms
             </p>
@@ -69,7 +69,7 @@ export const SplashPage = () => (
           >
             <CameraIcon className="w-8 h-8 text-blue-500" />
             <p className="text-lg">
-              3. Upload any nearby facility to help other users!
+              3. Upload nearby facilities to help other users!
             </p>
           </motion.div>
           <motion.div
