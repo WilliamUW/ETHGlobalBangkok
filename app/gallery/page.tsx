@@ -1,6 +1,6 @@
 "use client";
 import { IPFSRecord, Record, useAppContext } from "../AppContextProvider";
-import { polygonPublicClient } from "../config";
+import { polygonContract, polygonPublicClient } from "../config";
 import { wagmiAbi } from "../abi";
 import { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
@@ -57,7 +57,7 @@ export default function Gallery() {
           container: mapContainerRef.current,
           style: "mapbox://styles/mapbox/streets-v12",
           center: [100.4849994, 13.7392299],
-          zoom: 5,
+          zoom: 13,
         });
       }
 
@@ -99,7 +99,7 @@ export default function Gallery() {
       ${record.recordType == "Restroom" ? "🚻" : "🚰"} 
       ${record.recordType} 
       <span style="font-size: 16px; color: #777;">(${
-        record.ratings
+        record.rating
       }/5⭐️)</span>
     </h3>
 
@@ -192,7 +192,7 @@ export default function Gallery() {
     if (polygonPublicClient) {
       try {
         const response = await polygonPublicClient.readContract({
-          address: "0xe82f3275779792da70477c359b7aa27d1b66524b",
+          address: polygonContract,
           abi: wagmiAbi,
           functionName: "getAllRecords",
         });
@@ -242,7 +242,7 @@ export default function Gallery() {
             >
               <CardHeader className="flex justify-between items-center p-4 bg-blue-900">
                 <h2 className="text-2xl font-bold text-white">
-                  {details.recordType ?? details.locationType}
+                  {details.recordType}
                 </h2>
                 <Button
                   variant="ghost"
@@ -264,7 +264,7 @@ export default function Gallery() {
               <CardContent className="p-4">
                 <p className="text-md  mb-2">{details.description}</p>
                 <Ratings
-                  ratings={parseInt(details.rating ?? "0") ?? details.ratings}
+                  ratings={details.rating}
                 />
                 <p className="text-sm text-blue-400">
                   Uploaded on {details.timestamp}

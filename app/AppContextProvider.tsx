@@ -23,13 +23,11 @@ export interface Record {
   recordType: string;
   timestamp: bigint;
   isDeleted: boolean;
-  ratings: number;
+  rating: number;
 }
 
 export interface IPFSRecord extends Record {
   image: string;
-  rating?: string;
-  locationType?: string;
   description: string;
 }
 

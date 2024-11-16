@@ -4,24 +4,24 @@ pragma solidity ^0.8.19;
 contract RecordTracker {
     struct Record {
         string ipfsCid;
-        int256 latitude;
-        int256 longitude;
+        string latitude;
+        string longitude;
         string recordType;
         uint256 timestamp;
         bool isDeleted; 
-        uint8 ratings;
+        uint8 rating;
     }
 
     mapping(address => Record[]) private userRecords;
     Record[] private allRecords;
 
-    event RecordAdded(address indexed user, string ipfsCid, int256 latitude, int256 longitude, string recordType, uint256 timestamp);
+    event RecordAdded(address indexed user, string ipfsCid, string latitude, string longitude, string recordType, uint256 timestamp);
     event RecordDeleted(address indexed user, uint256 indexed recordIndex);
     event RecordRestored(address indexed user, uint256 indexed recordIndex);
 
-    function addRecord(string memory _ipfsCid, int256 _latitude, int256 _longitude, string memory _recordType, uint8 _ratings) public {
-        require(_ratings >= 1 && _ratings <= 5, "ratings must be between 1 and 5");
-        Record memory newRecord = Record(_ipfsCid, _latitude, _longitude, _recordType, block.timestamp, false, _ratings);
+    function addRecord(string memory _ipfsCid, string memory _latitude, string memory _longitude, string memory _recordType, uint8 _rating) public {
+        require(_rating >= 1 && _rating <= 5, "rating must be between 1 and 5");
+        Record memory newRecord = Record(_ipfsCid, _latitude, _longitude, _recordType, block.timestamp, false, _rating);
         allRecords.push(newRecord);
         emit RecordAdded(msg.sender, _ipfsCid, _latitude, _longitude, _recordType, block.timestamp);
     }

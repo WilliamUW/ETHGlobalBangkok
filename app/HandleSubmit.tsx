@@ -20,6 +20,7 @@ import { wagmiAbi } from "./abi";
 import {
   account,
   POLYGON,
+  polygonContract,
   polygonPublicClient,
   polygonWalletClient,
   SKALE,
@@ -155,7 +156,7 @@ export default function HandleSubmit() {
       if (networkId == POLYGON) {
         if (account && polygonWalletClient) {
           const { request } = await polygonPublicClient.simulateContract({
-            address: "0xe82f3275779792da70477c359b7aa27d1b66524b",
+            address: polygonContract,
             abi: wagmiAbi,
             functionName: "addRecord",
             args: [
@@ -232,6 +233,7 @@ export default function HandleSubmit() {
         mapRef.current = new mapboxgl.Map({
           container: mapContainerRef.current,
           center: [longitude, latitude],
+          zoom: 13,
         });
 
         mapRef?.current?.addControl(
