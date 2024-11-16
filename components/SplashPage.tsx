@@ -24,14 +24,14 @@ export const SplashPage = () => (
     <Card className=" border-2 border-blue-500 rounded-xl shadow-lg overflow-hidden">
       <CardHeader className="text-center">
         <h2 className="text-3xl font-bold text-blue-500 mb-4">
-          Welcome to WaterFinder!
+          Welcome to LooFinder!
         </h2>
       </CardHeader>
       <CardContent className="flex flex-col items-center">
         <div className="mb-8 relative w-48 h-48">
           {/* <Image
                   src="/logo.webp"
-                  alt="WaterFinder Logo"
+                  alt="LooFinder Logo"
                   width={256}
                   height={256}
                   className="rounded-full"

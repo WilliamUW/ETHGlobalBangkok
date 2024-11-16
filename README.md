@@ -1,4 +1,4 @@
-# WaterFinder
+# LooFinder
 
 ```
 yarn install && yarn run dev
