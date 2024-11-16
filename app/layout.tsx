@@ -7,7 +7,6 @@ import { DynamicContextProvider } from "@dynamic-labs/sdk-react-core";
 import { EthereumWalletConnectors } from "@dynamic-labs/ethereum";
 import { FlowWalletConnectors } from "@dynamic-labs/flow";
 import { AppContextProvider } from "./AppContextProvider";
-import { SCROLL } from "./config";
 export const metadata: Metadata = {
   title: "ETHGlobal",
   description: "ETHGlobal",
