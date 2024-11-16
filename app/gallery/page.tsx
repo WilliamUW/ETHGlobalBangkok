@@ -12,6 +12,8 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { readFromBlobId } from "../utility/walrus";
 import Image from "next/image";
 import { X } from "lucide-react";
+import { SplashPage } from "@/components/SplashPage";
+import {useDynamicContext} from "@dynamic-labs/sdk-react-core";
 
 declare global {
   interface Window {
@@ -20,6 +22,8 @@ declare global {
 }
 export default function Gallery() {
   const { records, setRecords } = useAppContext();
+  const { primaryWallet } = useDynamicContext();
+  const publicKey = primaryWallet?.address;
   const [showSubmit, setShowSubmit] = useState(false);
   const [details, setDetails] = useState<IPFSRecord | null>(null);
 
@@ -45,7 +49,7 @@ export default function Gallery() {
     };
   }, []);
   useEffect(() => {
-    if (records.length > 0) {
+    if (publicKey && records.length > 0) {
       mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN ?? "";
       if (!mapRef.current && mapContainerRef.current) {
         mapRef.current = new mapboxgl.Map({
@@ -145,7 +149,7 @@ export default function Gallery() {
         }
       };
     }
-  }, [records]); // Add `records` to the dependency array
+  }, [records, publicKey]); // Add `records` to the dependency array
 
   useEffect(() => {
     fetchRecords();
@@ -167,13 +171,15 @@ export default function Gallery() {
     }
   };
   // const [images, setImages] = useState<Record<string, string>>({});
-
+  if (!publicKey) {
+    return <SplashPage />;
+  }
   return (
     <>
       <div
         id="map-container"
         ref={mapContainerRef}
-        style={{ width: "100%", height: "90vh" }}
+        style={{ width: "100%", height: "92.5vh" }}
         className="rounded-lg overflow-hidden relative"
       >
         <div className="absolute top-4 left-4 bg-white p-4 rounded shadow-lg z-10">
