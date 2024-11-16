@@ -152,7 +152,7 @@ export default function HandleSubmit() {
       const networkId = await primaryWallet?.getNetwork();
       const { client, walletClient, contractAddress } =
         getClientContractAddress((networkId as number) ?? POLYGON);
-
+      console.log(account, client, walletClient, contractAddress)
       try {
         if (account && walletClient) {
           const { request } = await client.simulateContract({

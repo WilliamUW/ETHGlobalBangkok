@@ -19,8 +19,8 @@ export const polygonContractAddress =
 export const flowContractAddress = "0x94c19Bf5be886B5dF611A18eA714dE2001927e44";
 export const scrollContractAddress =
   "0x632e69488e25f1bec16a11cf1aa7b2261f2b94ef";
-export const mantleContractAddress = scrollContractAddress;
-export const zircuitContractAddress = scrollContractAddress;
+export const mantleContractAddress = "0x632e69488e25f1bec16a11cf1aa7b2261f2b94ef";
+export const zircuitContractAddress = "0x632e69488e25f1bec16a11cf1aa7b2261f2b94ef";
 
 export const polygonPublicClient = createPublicClient({
   chain: polygonAmoy,
