@@ -81,45 +81,48 @@ export default function Gallery() {
             type: "Feature",
             properties: {
               description: `
-  <div style="
-    font-family: Arial, sans-serif; 
-    padding: 10px; 
-    border: 1px solid #ddd; 
-    border-radius: 8px; 
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #ffffff;
-    text-align: center;
-    max-width: 250px;
-  ">
-    <h3 style="
-      font-size: 18px; 
-      margin-bottom: 10px; 
-      color: #333;
-    ">
-      ${record.recordType == "Restroom" ? "🚻" : "🚰"} 
-      ${record.recordType} 
-      <span style="font-size: 16px; color: #777;">(${record.rating}/5⭐️)</span>
-    </h3>
-
-    <button onclick="viewDetails('${record.ipfsCid}')" style="
-      background-color: #007bff; 
-      color: white; 
-      border: none; 
-      border-radius: 6px; 
-      padding: 8px 12px; 
-      font-size: 14px; 
-      cursor: pointer;
-      text-align: center;
-      width: 100%;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-    " 
-    onmouseover="this.style.backgroundColor='#0056b3'; this.style.transform='scale(1.05)';" 
-    onmouseout="this.style.backgroundColor='#007bff'; this.style.transform='scale(1.0)';"
-    >
-      ℹ️ View More Details ℹ️
-    </button>
-  </div>
-`,
+                <div style="
+                  font-family: Arial, sans-serif; 
+                  padding: 10px; 
+                  border: 1px solid #ddd; 
+                  border-radius: 8px; 
+                  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+                  background-color: #ffffff;
+                  text-align: center;
+                  max-width: 250px;
+                ">
+                  <h3 style="
+                    font-size: 18px; 
+                    margin-bottom: 10px; 
+                    color: #333;
+                  ">
+                    ${record.recordType == "Restroom" ? "🚻" : "🚰"} 
+                    ${record.recordType} 
+                    <span style="font-size: 16px; color: #777;">(${
+                      record.rating
+                    }/5⭐️)</span>
+                  </h3>
+      
+                  <button onclick="viewDetails('${record.ipfsCid}')" style="
+                    background-color: #007bff; 
+                    color: white; 
+                    border: none; 
+                    border-radius: 6px; 
+                    padding: 8px 12px; 
+                    font-size: 14px; 
+                    cursor: pointer;
+                    text-align: center;
+                    width: 100%;
+                    transition: background-color 0.3s ease, transform 0.2s ease;
+                  " 
+                  onmouseover="this.style.backgroundColor='#0056b3'; this.style.transform='scale(1.05)';" 
+                  onmouseout="this.style.backgroundColor='#007bff'; this.style.transform='scale(1.0)';"
+                  >
+                    ℹ️ View More Details ℹ️
+                  </button>
+                </div>
+              `,
+              type: record.recordType, // Store the record type for color coding
             },
             geometry: {
               type: "Point",
@@ -135,14 +138,26 @@ export default function Gallery() {
           data: geojsonData,
         });
 
-        // Add a layer for the markers
+        // Add a layer for the colored markers
         mapRef?.current?.addLayer({
           id: "places",
           type: "circle",
           source: "places",
           paint: {
+            // Circle radius
             "circle-radius": 6,
-            "circle-color": "#B42222",
+            // Circle color based on the record type
+            "circle-color": [
+              "match",
+              ["get", "type"],
+              "Restroom",
+              "#808080", // Grey for restrooms
+              "Water Fountain",
+              "#007bff", // Blue for water fountains
+              "#000000", // Default to black for unknown types
+            ],
+            "circle-stroke-width": 2,
+            "circle-stroke-color": "#ffffff", // White border
           },
         });
       });
