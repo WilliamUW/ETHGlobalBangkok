@@ -98,9 +98,7 @@ export default function Gallery() {
     ">
       ${record.recordType == "Restroom" ? "🚻" : "🚰"} 
       ${record.recordType} 
-      <span style="font-size: 16px; color: #777;">(${
-        record.rating
-      }/5⭐️)</span>
+      <span style="font-size: 16px; color: #777;">(${record.rating}/5⭐️)</span>
     </h3>
 
     <button onclick="viewDetails('${record.ipfsCid}')" style="
@@ -242,6 +240,7 @@ export default function Gallery() {
             >
               <CardHeader className="flex justify-between items-center p-4 bg-blue-900">
                 <h2 className="text-2xl font-bold text-white">
+                  {details.recordType == "Restroom" ? "🚻" : "🚰"}{" "}
                   {details.recordType}
                 </h2>
                 <Button
@@ -254,18 +253,19 @@ export default function Gallery() {
                   <X className="h-5 w-5 text-white" />
                 </Button>
               </CardHeader>
-              <Image
-                src={details.image}
-                alt="WaterFinder Logo"
-                width={256}
-                height={256}
-                className="rounded-md"
-              />
-              <CardContent className="p-4">
+
+              <CardContent className="p-4 flex flex-col">
+                <Ratings ratings={details.rating} />
+                <div className="flex justify-center mt-2 mb-2">
+                  <Image
+                    src={details.image}
+                    alt="WaterFinder Logo"
+                    width={256}
+                    height={256}
+                    className="rounded-md"
+                  />
+                </div>
                 <p className="text-md  mb-2">{details.description}</p>
-                <Ratings
-                  ratings={details.rating}
-                />
                 <p className="text-sm text-blue-400">
                   Uploaded on {details.timestamp}
                 </p>
