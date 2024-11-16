@@ -12,7 +12,7 @@ export default function Home() {
   const publicKey = primaryWallet?.address;
 
   return (
-    <div className="container mx-auto p-4 max-w-md align-middle justify-center  min-h-screen">
+    <div className="container p-4 max-w-md align-middle justify-center">
       {!publicKey && <SplashPage /> }
 
       {publicKey && <HandleSubmit />}
