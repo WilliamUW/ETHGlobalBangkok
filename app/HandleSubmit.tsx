@@ -19,16 +19,8 @@ import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
 import { wagmiAbi } from "./abi";
 import {
   account,
-  FLOW,
-  flowContractAddress,
-  flowPublicClient,
-  flowWalletClient,
   getClientContractAddress,
   POLYGON,
-  polygonContractAddress,
-  polygonPublicClient,
-  polygonWalletClient,
-  SKALE,
 } from "./config";
 import { storeStringAndGetBlobId } from "./utility/walrus";
 import { motion } from "framer-motion";
