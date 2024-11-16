@@ -11,7 +11,7 @@ import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { readFromBlobId } from "../utility/walrus";
 import Image from "next/image";
-import {  X } from "lucide-react";
+import { X } from "lucide-react";
 import { SplashPage } from "@/components/SplashPage";
 import { useDynamicContext } from "@dynamic-labs/sdk-react-core";
 import { Ratings } from "@/components/Ratings";
@@ -81,12 +81,47 @@ export default function Gallery() {
             type: "Feature",
             properties: {
               description: `
-                <div>
-                  <h3>${record.recordType == "Restroom" ? "🚻" : "🚰"} ${record.recordType} (${record.ratings}/5⭐️)</h3>
-                  
-                  <button onclick="viewDetails('${record.ipfsCid}')">ℹ️ View More Details ℹ️</button>
-                </div>
-              `,
+  <div style="
+    font-family: Arial, sans-serif; 
+    padding: 10px; 
+    border: 1px solid #ddd; 
+    border-radius: 8px; 
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    text-align: center;
+    max-width: 250px;
+  ">
+    <h3 style="
+      font-size: 18px; 
+      margin-bottom: 10px; 
+      color: #333;
+    ">
+      ${record.recordType == "Restroom" ? "🚻" : "🚰"} 
+      ${record.recordType} 
+      <span style="font-size: 16px; color: #777;">(${
+        record.ratings
+      }/5⭐️)</span>
+    </h3>
+
+    <button onclick="viewDetails('${record.ipfsCid}')" style="
+      background-color: #007bff; 
+      color: white; 
+      border: none; 
+      border-radius: 6px; 
+      padding: 8px 12px; 
+      font-size: 14px; 
+      cursor: pointer;
+      text-align: center;
+      width: 100%;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    " 
+    onmouseover="this.style.backgroundColor='#0056b3'; this.style.transform='scale(1.05)';" 
+    onmouseout="this.style.backgroundColor='#007bff'; this.style.transform='scale(1.0)';"
+    >
+      ℹ️ View More Details ℹ️
+    </button>
+  </div>
+`,
             },
             geometry: {
               type: "Point",
