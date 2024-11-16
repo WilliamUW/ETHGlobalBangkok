@@ -1,0 +1,3 @@
+We are using World ID to ensure that only legitimate users can contribute to the Hydrofy platform, reducing spam and bot submissions. By verifying users with World ID before they can add new amenities, we maintain a high level of trust and accuracy in our crowdsourced restroom and water fountain records.
+
+https://github.com/WilliamUW/ETHGlobalBangkok/blob/153e5f230174111011d531ebbbab85c1a87a752d/components/SplashPage.tsx#L21-L54
