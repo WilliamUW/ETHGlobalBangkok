@@ -37,9 +37,9 @@ const genAI = new GoogleGenerativeAI(
   process.env.NEXT_PUBLIC_GEMINI_API_KEY || ""
 );
 const model = genAI.getGenerativeModel({
-  model: "gemini-1.5-flash",
+  model: "gemini-1.5-pro",
   systemInstruction:
-    "Return what location the picture is, followed by a description of the image.\n\nOutput Format:\nLocationType: one of Restroom or Water Fountain or Other\nDescription: [image description]\n\n",
+    "You are an expert that reviewing public amenities like restrooms and water fountains. Return what type of amenity the picture is, followed by a description of the amenity in the image.\n\nOutput Format:\nLocationType: one of Restroom or Water Fountain or Other\nDescription: [image description]\n\n",
 });
 
 export default function HandleSubmit() {
