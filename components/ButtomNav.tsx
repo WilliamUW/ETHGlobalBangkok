@@ -15,7 +15,7 @@ const BottomNav = () => {
       </Link>
       <Link href="/gallery" className={`flex flex-col items-center ${pathname === '/gallery' ? 'text-blue-500' : 'text-gray-500'}`}>
         <Book className="w-6 h-6" />
-        <span className="text-xs">Gallery</span>
+        <span className="text-xs">Map</span>
       </Link>
       <Link href="/profile" className={`flex flex-col items-center ${pathname === '/profile' ? 'text-blue-500' : 'text-gray-500'}`}>
         <User className="w-6 h-6" />
