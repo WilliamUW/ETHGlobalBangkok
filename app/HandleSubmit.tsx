@@ -154,7 +154,8 @@ export default function HandleSubmit() {
       console.log(account, client, walletClient, contractAddress)
       try {
         if (account && walletClient) {
-          const { request } = await client.simulateContract({
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const { request } = await  (client.simulateContract as any)({
             address: contractAddress as `0x${string}`,
             abi: wagmiAbi,
             functionName: "addRecord",
