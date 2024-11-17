@@ -58,7 +58,7 @@ export default function Gallery() {
         mapRef.current = new mapboxgl.Map({
           container: mapContainerRef.current,
           style: "mapbox://styles/mapbox/streets-v12",
-          center: [100.4849994, 13.7392299],
+          center: [100.5584029, 13.7247192],
           zoom: 13,
         });
       }

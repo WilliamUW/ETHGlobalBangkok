@@ -51,8 +51,8 @@ export default function HandleSubmit() {
   const [recordData, setRecordData] = useState<object | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [latitude, setLatitude] = useState(13.7392299);
-  const [longitude, setLongitude] = useState(100.4847994);
+  const [latitude, setLatitude] = useState(13.7247192);
+  const [longitude, setLongitude] = useState(100.5584029);
   const [rating, setRating] = useState(5);
   const points = getRandomInt(1, 5);
 
