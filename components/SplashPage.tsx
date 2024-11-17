@@ -105,7 +105,7 @@ export const SplashPage = () => {
                 3. Upload nearby facilities to help other users!
               </p>
             </motion.div>
-            <motion.div
+            {isVerified && <motion.div
               className="flex items-center justify-center space-x-4"
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
@@ -116,7 +116,7 @@ export const SplashPage = () => {
                   Get Started!
                 </Button>
               </Link>
-            </motion.div>
+            </motion.div>}
           </div>
         </CardContent>
       </Card>

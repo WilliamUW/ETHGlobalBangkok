@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <div className="container p-4 max-w-md align-middle justify-center">
       <SplashPage />
-      <Button onClick={() => getRandomRewardNumber()}>Pyth RNG</Button>
+      {false && <Button onClick={() => getRandomRewardNumber()}>Pyth RNG</Button>}
     </div>
   );
 }
