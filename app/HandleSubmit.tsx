@@ -28,6 +28,8 @@ import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { Slider } from "@/components/ui/slider";
 import { Ratings } from "@/components/Ratings";
+import {PointPopup} from "@/components/PointPopup";
+import {getRandomInt} from "@/lib/helpers";
 
 const genAI = new GoogleGenerativeAI(
   process.env.NEXT_PUBLIC_GEMINI_API_KEY || ""
@@ -52,6 +54,7 @@ export default function HandleSubmit() {
   const [latitude, setLatitude] = useState(13.7392299);
   const [longitude, setLongitude] = useState(100.4847994);
   const [rating, setRating] = useState(5);
+  const points = getRandomInt(1, 5);
 
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -433,11 +436,12 @@ export default function HandleSubmit() {
         {recordData && (
           <Card className="border-2 border-blue-500 rounded-xl shadow-lg animate-fade-in">
             <CardHeader className="text-center text-xl font-bold text-blue-500">
-              Image Uploaded Successfully!
+              Recorded Uploaded Successfully!
             </CardHeader>
             <CardContent>
               <div className="mb-4 text-center">
-                <h2 className="text-xl font-bold text-blue-500">Image Data:</h2>
+                <PointPopup isVisible={true} points={points} />
+                <h2 className="text-xl font-bold text-blue-500">Record Data:</h2>
                 <div className=" rounded-lg p-4 shadow-md text-left w-full ">
                   {recordData &&
                     Object.entries(recordData).map(([key, value], index) => (
